@@ -39,31 +39,31 @@
         <property name="password" value="${spring.datasource.password}"/>
 
         <!-- 配置初始化大小、最小、最大 -->
-        <property name="initialSize" value="${ds.initialSize}"/>
-        <property name="minIdle" value="${ds.minIdle}"/>
-        <property name="maxActive" value="${ds.maxActive}"/>
+        <property name="initialSize" value="${spring.datasource.initial-size}"/>
+        <property name="minIdle" value="${spring.datasource.min-idle}"/>
+        <property name="maxActive" value="${spring.datasource.max-active}"/>
 
         <!-- 配置获取连接等待超时的时间 -->
-        <property name="maxWait" value="${ds.maxWait}"/>
+        <property name="maxWait" value="${spring.datasource.max-wait-millis}"/>
 
         <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
-        <property name="timeBetweenEvictionRunsMillis" value="${ds.timeBetweenEvictionRunsMillis}"/>
+        <property name="timeBetweenEvictionRunsMillis" value="${spring.datasource.time-between-eviction-runs-millis}"/>
 
         <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
-        <property name="minEvictableIdleTimeMillis" value="${ds.minEvictableIdleTimeMillis}"/>
+        <property name="minEvictableIdleTimeMillis" value="${spring.datasource.min-evictable-idle-time-millis}"/>
 
-        <property name="validationQuery" value="${ds.validationQuery}"/>
-        <property name="testWhileIdle" value="${ds.testWhileIdle}"/>
-        <property name="testOnBorrow" value="${ds.testOnBorrow}"/>
-        <property name="testOnReturn" value="${ds.testOnReturn}"/>
+        <property name="validationQuery" value="${spring.datasource.validation-query}"/>
+        <property name="testWhileIdle" value="${spring.datasource.test-while-idle}"/>
+        <property name="testOnBorrow" value="${spring.datasource.test-on-borrow}"/>
+        <property name="testOnReturn" value="${spring.datasource.test-on-return}"/>
 
         <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
-        <property name="poolPreparedStatements" value="${ds.poolPreparedStatements}"/>
+        <property name="poolPreparedStatements" value="${spring.datasource.poolPreparedStatements}"/>
         <property name="maxPoolPreparedStatementPerConnectionSize"
-                  value="${ds.maxPoolPreparedStatementPerConnectionSize}"/>
+                  value="${spring.datasource.maxPoolPreparedStatementPerConnectionSize}"/>
 
         <!-- 配置监控统计拦截的filters -->
-        <property name="filters" value="${ds.filters}"/>
+        <property name="filters" value="${spring.datasource.filters}"/>
     </bean>
 
     <!-- mybatis文件配置，扫描所有mapper文件 -->

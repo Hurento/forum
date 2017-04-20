@@ -1,7 +1,6 @@
 package com.sy.forum.system.login.controller;
 
-import com.sy.forum.system.users.model.UserInfo;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,8 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/login")
 public class LoginController {
 
-    @RequestMapping("/{name}")
-    public UserInfo login(@PathVariable("name") String name) {
-        return new UserInfo(name,"666666");
+    @RequestMapping("/initLoginPage")
+    public String initLoginPage(Model model) {
+        model.addAttribute("hello", "Hello, My name is Carl! What't you name?");
+        System.out.println("Carl init login page");
+        return "/login/login";
     }
 }

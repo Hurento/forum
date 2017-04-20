@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache updateCheck="false" name="txswx-ehcache">
+    <diskStore path="java.io.tmpdir"/>
+    <!-- DefaultCache setting. -->
+    <defaultCache maxEntriesLocalHeap="10000" eternal="true"
+                  timeToIdleSeconds="60" timeToLiveSeconds="120" overflowToDisk="true"
+                  maxEntriesLocalDisk="100000"/>
+
+    <!-- user team action permission -->
+    <cache name="teampermissionCathe" maxElementsInMemory="10000"
+           eternal="false" overflowToDisk="true" timeToIdleSeconds="60"
+           timeToLiveSeconds="120"/>
+</ehcache>

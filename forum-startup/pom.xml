@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>forum-parent</artifactId>
+        <groupId>com.sy.forum</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>forum-startup</artifactId>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.sy.forum</groupId>
+            <artifactId>forum-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sy.forum</groupId>
+            <artifactId>forum-students</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sy.forum</groupId>
+            <artifactId>forum-system</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <!-- mybatis-ehcache-1.0.3 -->
+        <dependency>
+            <groupId>mybatis-ehcache</groupId>
+            <artifactId>mybatis-ehcache</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/src/main/resources/lib/mybatis-ehcache-1.0.3.jar</systemPath>
+        </dependency>
+        <!--  mybatis-oscache-1.0 -->
+        <dependency>
+            <groupId>mybatis-oscache</groupId>
+            <artifactId>mybatis-oscache</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/src/main/resources/lib/mybatis-oscache-1.0.1.jar</systemPath>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <!-- 为jar包取名 -->
+        <finalName>forum-startup</finalName>
+    </build>
+
+</project>

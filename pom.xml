@@ -27,8 +27,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.locales>zh_CN</project.build.locales>
-        <project.build.jdk>1.7</project.build.jdk>
-        <java.version>1.7</java.version>
+        <project.build.jdk>1.8</project.build.jdk>
+        <java.version>1.8</java.version>
         <junit.version>4.11</junit.version>
         <fastjson.version>1.2.4</fastjson.version>
         <boot.version>1.5.2.RELEASE</boot.version>
@@ -93,7 +93,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
-        spring-boot-starter-velocity
 
         <!-- Alibaba Fastjson -->
         <dependency>

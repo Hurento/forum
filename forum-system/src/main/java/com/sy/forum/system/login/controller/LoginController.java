@@ -16,7 +16,6 @@ public class LoginController {
 
     @RequestMapping("/initLoginPage")
     public String initLoginPage(Model model) {
-        model.addAttribute("hello", "Hello, My name is Carl! What't you name?");
         System.out.println("Carl init main page");
         return "main/login";
     }

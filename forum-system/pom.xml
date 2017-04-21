@@ -11,4 +11,20 @@
 
     <artifactId>forum-system</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.sy.forum</groupId>
+            <artifactId>forum-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <finalName>forum-system</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+    </build>
+
 </project>

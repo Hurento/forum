@@ -82,11 +82,6 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-ws</artifactId>
-            <version>1.4.5.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
         <dependency>
@@ -209,7 +204,7 @@
     <build>
         <finalName>forum-parent</finalName>
         <!--配置Maven 对resource文件 过滤 -->
-        <resources>
+        <!--<resources>
             <resource>
                 <directory>src/main/resources</directory>
                 <includes>
@@ -226,10 +221,8 @@
                 </includes>
                 <filtering>true</filtering>
             </resource>
-        </resources>
-
+        </resources>-->
         <plugins>
-
             <!-- 资源文件拷贝插件，实际依赖 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -249,28 +242,6 @@
                     <target>1.7</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
-            </plugin>
-            <plugin>
-                <!-- The plugin rewrites your manifest -->
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>1.5.2.RELEASE</version>
-                <configuration><!-- 指定该Main Class为全局的唯一入口 -->
-                    <fork>true</fork>
-                    <mainClass>com.sy.forum.ApplacationMain</mainClass>
-                    <layout>ZIP</layout>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal><!--可以把依赖的包都打包到生成的Jar包中-->
-                        </goals>
-                        <!--可以生成不含依赖包的不可执行Jar包-->
-                        <!-- configuration>
-                          <classifier>exec</classifier>
-                        </configuration> -->
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

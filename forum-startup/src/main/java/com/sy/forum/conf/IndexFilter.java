@@ -13,7 +13,7 @@ import java.io.IOException;
  * @Description:
  * @Date 2017-04-21 10:18
  */
-@WebFilter(urlPatterns = "/*", filterName = "indexFilter")
+//@WebFilter(urlPatterns = "/*", filterName = "indexFilter")
 public class IndexFilter implements Filter {
     Log log = LogFactory.getLog(IndexFilter.class);
 

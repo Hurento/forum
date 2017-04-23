@@ -55,7 +55,7 @@ var Login = function() {
                 login();
             }
         }),
-        $('.form-login input').keyup(function(e) {
+        $('.form-login input').keypress(function(e) {
             if (e.which == 13) {
                 if ($('.form-login').validate().form()) {
                     login();
@@ -66,7 +66,7 @@ var Login = function() {
                 return false;
             }
         }),
-        $('.forget-form input').keyup(function(e) {
+        $('.forget-form input').keypress(function(e) {
             if (e.which == 13) {
                 if ($('.forget-form').validate().form()) {
                     $('.forget-form').submit();
@@ -96,9 +96,12 @@ var Login = function() {
         
         options = {
                 url: "/rest/login/signIn",
-                alertType:'3',
+                alertType: 'noAlter',
+                dataType: 'html',
+                async: false,
+                data : JSON.stringify(data),
                 callback : function (data) {
-                    alert(JSON.stringify(data));
+
                 }
             };
 

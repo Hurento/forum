@@ -367,67 +367,110 @@ var GlobalUtil = function() {
         });
     }
 
+	/**
+	 * 请求类型
+	 * @param type
+	 * @returns {string}
+     */
+	var getReuqestType = function (type) {
+		return (type == undefined || type == null) ? 'POST' : type;
+	}
+
+	/**
+	 * 设置返回数据类型
+	 * @param type
+	 * @returns {string}
+	 */
+	var getDataType = function (type) {
+		return (type == undefined || type == null) ? 'JSON' : type;
+	}
+
+	/**
+	 * 设置返回类型
+	 * @param type
+	 * @returns {string}
+     */
+	var getContentType = function (type) {
+		type = getDataType(type);
+		var contentType = "application/x-www-form-urlencoded; charset=utf-8";
+		if (type.toLowerCase() == "json") {
+			contentType = "application/json; charset=utf-8";
+		}
+		return contentType;
+	}
+
+	/**
+	 * 设置同步或异步
+	 * @param async
+	 * @returns {boolean}
+     */
+	var getAsync = function (async) {
+		return (async == undefined || async == null) ? true : async;
+	}
+
     /**
      * 通用ajax请求
      * obj 参数对象
      * type: 根据类型指定提示方式
      */
     var globalAjaxCallback = function(obj) {
-
         $.ajax({
             url : obj.url,
             cache: false,
-			data : (obj.type == undefined || obj.type == null) ? JSON.stringify({}) : JSON.stringify(obj.data),
-			type : (obj.type == undefined || obj.type == null) ? 'POST' : obj.type,
-			dataType: (obj.dataType == undefined || obj.dataType == null) ? 'JSON' : obj.dataType,
-            async : (obj.async == undefined || obj.async == null) ? true : obj.async,
-			contentType: "application/json; charset=utf-8",
+			data : obj.data,
+			type : getReuqestType(obj.type),
+			dataType: getDataType(obj.dataType),
+			contentType: getContentType(obj.dataType),
+            async : getAsync(obj.async),
             error : function(x,s,v){
                 var data = {
                     'resultCode' : 1,
-                    'message' : v
+                    'message' : (v == null) ? "未知的错误" : v
                 };
                 obj.callback(data);
             },
             success : function(data) {
+				alert(JSON.stringify(data));
+				var dataType = getDataType(obj.dataType).toLowerCase();
                 var result = data;
                 var dataHtml = "";
-                if (result.resultCode == 0) {
-                    dataHtml = i18n.t('GENERAL.SUCCESS');
-                } else {
-                    dataHtml = result.message;
-                }
-                var type = obj.alertType;
-                if(type == "1") {// alert 提示并回调
-                    bootbox.alert({
-                        size : 'small',
-                        message : dataHtml,
-                        callback : function(v) {
-                            obj.callback(data);
-                        }
-                    });
-                } else if(type == "2") {//
-                    bootbox.confirm({
-                        size : 'small',
-                        message : i18n.t('GENERAL.CONFIRM.GEN'),
-                        buttons : {
-                            confirm : {
-                                label : i18n.t('GENERAL.OK')
-                            },
-                            cancel : {
-                                label : i18n.t('GENERAL.CANCEL')
-                            }
-                        },
-                        callback : function(v) {
-                            if(v) {
-                                obj.callback(data);
-                            }
-                        }
-                    });
-                } else if(type == "3") {
-                    obj.callback(data);
-                }
-
+				if (dataType == "json") {
+					if (result.resultCode == 0) {
+						dataHtml = i18n.t('GENERAL.SUCCESS');
+					} else {
+						dataHtml = result.message;
+					}
+					var type = obj.alertType;
+					if(type == "alter") {// alert 提示并回调
+						bootbox.alert({
+							size : 'small',
+							message : dataHtml,
+							callback : function(v) {
+								obj.callback(data);
+							}
+						});
+					} else if(type == "comfirm") {//
+						bootbox.confirm({
+							size : 'small',
+							message : i18n.t('GENERAL.CONFIRM.GEN'),
+							buttons : {
+								confirm : {
+									label : i18n.t('GENERAL.OK')
+								},
+								cancel : {
+									label : i18n.t('GENERAL.CANCEL')
+								}
+							},
+							callback : function(v) {
+								if(v) {
+									obj.callback(data);
+								}
+							}
+						});
+					} else if(type == "noAlter") {
+						obj.callback(data);
+					}
+				}
             }
         });
     }

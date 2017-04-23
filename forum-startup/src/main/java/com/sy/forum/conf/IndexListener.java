@@ -13,7 +13,7 @@ import javax.servlet.annotation.WebListener;
  * @Description:
  * @Date 2017-04-21 10:17
  */
-@WebListener
+//@WebListener
 public class IndexListener implements ServletContextListener {
     private Log log = LogFactory.getLog(IndexListener.class);
 

@@ -13,7 +13,7 @@ import java.io.IOException;
  * @Description:
  * @Date 2017-04-21 10:16
  */
-@WebServlet(name = "IndexServlet",urlPatterns = "/rest")
+//@WebServlet(name = "IndexServlet",urlPatterns = "/rest")
 public class IndexServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

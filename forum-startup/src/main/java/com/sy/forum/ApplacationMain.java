@@ -1,7 +1,10 @@
 package com.sy.forum;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * @Author SY
@@ -10,6 +13,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Date 2017-04-20 9:57
  */
 @SpringBootApplication
+@ServletComponentScan(basePackages = "com.sy.forum.*")
+@ComponentScan(basePackages = "com.sy.forum.*")
+@EnableAutoConfiguration
 public class ApplacationMain {
 
     public static void main(String []args) {

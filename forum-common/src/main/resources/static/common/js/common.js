@@ -31,7 +31,7 @@ var GlobalCommon = function() {
         i18n.init({
             lng : langType,
             fallbackLng : langType,
-            resGetPath : getRootUrl('i18n/script-__lng__.json'),
+            resGetPath : '/i18n/script-__lng__.json',
             tName : 't',
             getAsync : false,// 设置同步
             i18nName : 'i18n'

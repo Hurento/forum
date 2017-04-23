@@ -373,12 +373,15 @@ var GlobalUtil = function() {
      * type: 根据类型指定提示方式
      */
     var globalAjaxCallback = function(obj) {
+
         $.ajax({
-            type : (obj.type) ? obj.type : 'POST',
             url : obj.url,
-            data : obj.data,
             cache: false,
+			data : (obj.type == undefined || obj.type == null) ? JSON.stringify({}) : JSON.stringify(obj.data),
+			type : (obj.type == undefined || obj.type == null) ? 'POST' : obj.type,
+			dataType: (obj.dataType == undefined || obj.dataType == null) ? 'JSON' : obj.dataType,
             async : (obj.async == undefined || obj.async == null) ? true : obj.async,
+			contentType: "application/json; charset=utf-8",
             error : function(x,s,v){
                 var data = {
                     'resultCode' : 1,

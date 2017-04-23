@@ -6,31 +6,31 @@
  */
 var Login = function() {
     var r = function() {
-        $(".login-form").validate({
+        $(".form-login").validate({
             errorElement: "span",
             errorClass: "help-block",
-            focusInvalid: !1,
+            focusInvalid: false,
             rules: {
-                username: {
-                    required: !0
+                userName: {
+                    required: true
                 },
-                password: {
-                    required: !0
+                userPass: {
+                    required: true
                 },
                 remember: {
-                    required: !1
+                    required: false
                 }
             },
             messages: {
-                username: {
+                userName: {
                     required: "Username is required."
                 },
-                password: {
+                userPass: {
                     required: "Password is required."
                 }
             },
             invalidHandler: function(r, e) {
-                $(".alert-danger", $(".login-form")).show()
+                $(".alert-danger", $(".form-login")).show()
             },
             highlight: function(r) {
                 $(r).closest(".form-group").addClass("has-error")
@@ -38,29 +38,74 @@ var Login = function() {
             success: function(r) {
                 r.closest(".form-group").removeClass("has-error"),
                     r.remove(),
-                    $(".login-form .display-hide").removeAttr("style");
+                    $(".form-login .display-hide").hide();
             },
             errorPlacement: function(r, e) {
                 r.insertAfter(e.closest(".input-icon"))
             },
             submitHandler: function(r) {
-                r.submit()
+                login();
+                // var v = $('input[name$="password"]').val();
+                // $('input[name$="password"]').val(paramEncryptionPassword(v));
+                // r.submit();
             }
         }),
-            $(".login-form input").keypress(function(r) {
-                return 13 == r.which ? ($(".login-form").validate().form() && $(".login-form").submit(), !1) : void 0
-            }),
-            $(".forget-form input").keypress(function(r) {
-                return 13 == r.which ? ($(".forget-form").validate().form() && $(".forget-form").submit(), !1) : void 0
-            }),
-            $("#forget-password").click(function() {
-                $(".login-form").hide(),
-                    $(".forget-form").show()
-            }),
-            $("#back-btn").click(function() {
-                $(".login-form").show(),
-                    $(".forget-form").hide()
-            })
+        $("#login-btn").click(function () {
+            if($('.form-login').validate().form()) {
+                login();
+            }
+        }),
+        $('.form-login input').keyup(function(e) {
+            if (e.which == 13) {
+                if ($('.form-login').validate().form()) {
+                    login();
+                    // var v = $('input[name$="password"]').val();
+                    // $('input[name$="password"]').val(paramEncryptionPassword(v));
+                    // $('.form-login').submit(); //form validation success, call ajax form submit
+                }
+                return false;
+            }
+        }),
+        $('.forget-form input').keyup(function(e) {
+            if (e.which == 13) {
+                if ($('.forget-form').validate().form()) {
+                    $('.forget-form').submit();
+                }
+                return false;
+            }
+        }),
+        $("#forget-password").click(function() {
+            $(".form-login").hide(),
+                $(".forget-form").show()
+        }),
+        $("#back-btn").click(function() {
+            $(".form-login").show(),
+                $(".forget-form").hide()
+        })
+    },
+    login = function(){
+        var v = $('input[name$="userPass"]').val(),
+            options,
+            password = paramEncryptionPassword(v),
+            username = $('input[name$="userName"]').val(),
+            data = {
+                userName: username,
+                userPass: password
+            };
+            $('input[name$="password"]').val(password);
+        
+        options = {
+                url: "/rest/login/signIn",
+                alertType:'3',
+                callback : function (data) {
+                    alert(JSON.stringify(data));
+                }
+            };
+
+        GlobalUtil.globalAjaxCallback(options);
+    },
+    paramEncryptionPassword = function (v) {
+        return GlobalCommon.paramEncryption(v);
     };
     return {
         init: function() {
@@ -70,8 +115,8 @@ var Login = function() {
                     "/global/plugins/pages/img/login/bg2.jpg",
                     "/global/plugins/pages/img/login/bg3.jpg"
                 ], {
-                    fade: 1e3,
-                    duration: 8e3
+                    fade: 1000,
+                    duration: 8000
                 }),
                 $(".forget-form").hide();
         }

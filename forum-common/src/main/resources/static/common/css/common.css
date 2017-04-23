@@ -1,0 +1,24 @@
+.angle-font-h5 {
+    font-size: 12px!important;
+}
+.angle-magin {
+    margin: 0px!important;
+}
+.dropdown-settings {
+    background-color: white!important;
+}
+.dropdown-settings:hover {
+    background-color: white!important;
+}
+.dropdown-settings a {
+    border: 0px;
+}
+.dropdown-settings a {
+    background-color: white!important;
+}
+.dropdown-settings a:hover {
+    background-color: white!important;
+}
+.page-content-center {
+    padding-top: 12px;
+}

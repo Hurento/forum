@@ -4,7 +4,7 @@
  * @Description: 登录
  * @Date 2017/4/21 16:48
  */
-var Login = function() {
+var LoginAccount = function() {
     var r = function() {
         $(".form-login").validate({
             errorElement: "span",
@@ -59,9 +59,6 @@ var Login = function() {
             if (e.which == 13) {
                 if ($('.form-login').validate().form()) {
                     login();
-                    // var v = $('input[name$="password"]').val();
-                    // $('input[name$="password"]').val(paramEncryptionPassword(v));
-                    // $('.form-login').submit(); //form validation success, call ajax form submit
                 }
                 return false;
             }
@@ -92,12 +89,12 @@ var Login = function() {
                 userName: username,
                 userPass: password
             };
-            $('input[name$="password"]').val(password);
-        
+            $('input[name$="userPass"]').val(password);
+
         options = {
                 url: "/rest/login/signIn",
                 alertType: 'noAlter',
-                dataType: 'html',
+                dataType: 'JSON',
                 async: false,
                 data : JSON.stringify(data),
                 callback : function (data) {

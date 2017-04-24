@@ -1,5 +1,6 @@
 package com.sy.forum;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,6 +16,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @ServletComponentScan(basePackages = "com.sy.forum.*")
 @ComponentScan(basePackages = "com.sy.forum.*")
+@MapperScan(basePackages = "com.sy.forum.*")
 @EnableAutoConfiguration
 public class ApplacationMain {
 

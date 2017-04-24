@@ -1,6 +1,9 @@
 package com.sy.forum.conf;
 
 
+import com.sy.forum.entity.SysVisitPermissionInit;
+import com.sy.forum.service.SysPermissionInitService;
+import com.sy.forum.service.impl.SysPermissionInitServiceImpl;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -9,9 +12,9 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,9 +24,13 @@ import java.util.Map;
  * @Date 2017-04-13 23:25
  */
 @ComponentScan
-@Configuration
+//@Configuration
 public class ShiroConfiguration {
 
+    @Bean
+    public SysPermissionInitService getSysPermissionInitService() {
+        return new SysPermissionInitServiceImpl();
+    }
 
     /**
      * shiro 缓存配置
@@ -98,8 +105,12 @@ public class ShiroConfiguration {
      */
     private void loadShiroFilterChain(ShiroFilterFactoryBean shiroFilterFactoryBean){
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
-        filterChainDefinitionMap.put("/rest/**", "authc");
-        filterChainDefinitionMap.put("/**", "anon");
+        SysPermissionInitService sysPermissionInitService = getSysPermissionInitService();
+        //查询权限控制规则
+        List<SysVisitPermissionInit> permissionInits = sysPermissionInitService.findSysVisitPermissionInitList();
+        for (SysVisitPermissionInit permissionInit : permissionInits) {
+            filterChainDefinitionMap.put(permissionInit.getVisitPaht(), permissionInit.getPermissionInit());
+        }
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
     }
 

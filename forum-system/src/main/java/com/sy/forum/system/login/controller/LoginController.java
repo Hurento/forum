@@ -1,19 +1,17 @@
 package com.sy.forum.system.login.controller;
 
-import com.alibaba.druid.support.json.JSONUtils;
 import com.sy.forum.core.entity.GenericFinal;
 import com.sy.forum.core.entity.GenericFinalMSG;
-import com.sy.forum.core.entity.Result;
 import com.sy.forum.core.entity.UnitedLogger;
-import com.sy.forum.exceptions.UnitedException;
 import com.sy.forum.system.users.model.UserInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 /**

@@ -2,7 +2,10 @@ package com.sy.forum.conf;
 
 import com.sy.forum.system.users.model.UserInfo;
 import com.sy.forum.utils.Utils;
-import org.apache.shiro.authc.*;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationInfo;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -17,6 +20,9 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @ComponentScan
 public class ShiroRealm extends AuthorizingRealm {
+
+
+
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         System.out.println("角色认证");

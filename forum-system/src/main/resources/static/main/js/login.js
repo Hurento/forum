@@ -11,10 +11,10 @@ var LoginAccount = function() {
             errorClass: "help-block",
             focusInvalid: false,
             rules: {
-                userName: {
+                loginName: {
                     required: true
                 },
-                userPass: {
+                loginPassword: {
                     required: true
                 },
                 remember: {
@@ -22,10 +22,10 @@ var LoginAccount = function() {
                 }
             },
             messages: {
-                userName: {
-                    required: "Username is required."
+                loginName: {
+                    required: "loginName is required."
                 },
-                userPass: {
+                loginPassword: {
                     required: "Password is required."
                 }
             },
@@ -44,10 +44,11 @@ var LoginAccount = function() {
                 r.insertAfter(e.closest(".input-icon"))
             },
             submitHandler: function(r) {
+            }
+        }),
+        $("#login-btn").keypress(function () {
+            if($('.form-login').validate().form()) {
                 login();
-                // var v = $('input[name$="password"]').val();
-                // $('input[name$="password"]').val(paramEncryptionPassword(v));
-                // r.submit();
             }
         }),
         $("#login-btn").click(function () {
@@ -58,7 +59,7 @@ var LoginAccount = function() {
         $('.form-login input').keypress(function(e) {
             if (e.which == 13) {
                 if ($('.form-login').validate().form()) {
-                    login();
+                    //login();
                 }
                 return false;
             }
@@ -66,7 +67,7 @@ var LoginAccount = function() {
         $('.forget-form input').keypress(function(e) {
             if (e.which == 13) {
                 if ($('.forget-form').validate().form()) {
-                    $('.forget-form').submit();
+                    //$('.forget-form').submit();
                 }
                 return false;
             }
@@ -81,15 +82,15 @@ var LoginAccount = function() {
         })
     },
     login = function(){
-        var v = $('input[name$="userPass"]').val(),
+        var v = $('input[name$="loginPassword"]').val(),
             options,
             password = paramEncryptionPassword(v),
-            username = $('input[name$="userName"]').val(),
+            loginName = $('input[name$="loginName"]').val(),
             data = {
-                userName: username,
-                userPass: password
+                loginName: loginName,
+                loginPassword: password
             };
-            $('input[name$="userPass"]').val(password);
+            $('input[name$="loginPassword"]').val(password);
 
         options = {
                 url: "/rest/login/signIn",

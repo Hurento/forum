@@ -20,16 +20,11 @@
         </dependency>
         <dependency>
             <groupId>com.sy.forum</groupId>
-            <artifactId>forum-students</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sy.forum</groupId>
             <artifactId>forum-system</artifactId>
             <version>${project.version}</version>
         </dependency>
 
-        <!-- mybatis-ehcache-1.0.3 -->
+        <!-- mappings-ehcache-1.0.3 -->
         <dependency>
             <groupId>mybatis-ehcache</groupId>
             <artifactId>mybatis-ehcache</artifactId>
@@ -37,7 +32,7 @@
             <scope>system</scope>
             <systemPath>${basedir}/src/main/resources/lib/mybatis-ehcache-1.0.3.jar</systemPath>
         </dependency>
-        <!--  mybatis-oscache-1.0 -->
+        <!--  mappings-oscache-1.0 -->
         <dependency>
             <groupId>mybatis-oscache</groupId>
             <artifactId>mybatis-oscache</artifactId>

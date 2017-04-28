@@ -7,12 +7,10 @@
 <!-- BEGIN HEAD -->
 <head>
     <title>Forum | Login page</title>
-    <!-- BEGIN PAGE LEVEL STYLES -->
     <link th:href="@{/main/css/login.css}" rel="stylesheet" type="text/css" />
 <!-- END HEAD -->
 </head>
-<body class=" login">
-<div th:include="contentHead::contentHead"></div>
+<body class=" login"><div th:include="contentHead::contentHead"></div>
 <!-- BEGIN : LOGIN PAGE 5-1 -->
 <div class="user-login-5">
     <div class="row bs-reset">
@@ -30,7 +28,7 @@
                     </div>
                     <div class="form-group form-md-line-input has-error">
                         <div class="input-icon">
-                            <input type="text" name="userName" class="form-control" placeholder="Please enter a username or email or phone number" required="required"/>
+                            <input type="text" name="loginName" class="form-control" placeholder="Please enter a username or email or phone number" required="required"/>
                             <div class="form-control-focus"> </div>
                             <span class="help-block">Username is required.</span>
                             <i class="fa fa-user"></i>
@@ -38,7 +36,7 @@
                     </div>
                     <div class="form-group form-md-line-input has-error">
                         <div class="input-icon">
-                            <input type="password" name="userPass" class="form-control" placeholder="Please enter a password" required="required"/>
+                            <input type="password" name="loginPassword" class="form-control" placeholder="Please enter a password" required="required"/>
                             <div class="form-control-focus"> </div>
                             <span class="help-block">Password is required.</span>
                             <i class="fa fa-key"></i>
@@ -124,7 +122,7 @@
 <!-- END : LOGIN PAGE 5-1 -->
 <div th:include="contentFoot::contentFoot"></div>
 <script th:src="@{/main/js/login.js}" type="text/javascript"></script>
-<script th:inline="javascript">
+<script th:inline="javascript" type="text/javascript">
     $(function () {
         LoginAccount.init();
     })

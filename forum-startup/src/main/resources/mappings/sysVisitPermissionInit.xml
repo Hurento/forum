@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.sy.forum.dao.SysPermissionInitDao">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.forum.web.startup.dao.SysPermissionInitDao">
 
-    <select id="findSysVisitPermissionInitList" parameterType="String" resultType="com.sy.forum.entity.SysVisitPermissionInit">
+    <select id="findSysVisitPermissionInitList" parameterType="String" resultType="com.sy.forum.web.startup.entity.SysVisitPermissionInit">
         SELECT
             svp.vc_visit_path AS visitPaht,
             svp.vc_permission_init AS permissionInit

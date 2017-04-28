@@ -16,7 +16,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @ServletComponentScan(basePackages = "com.sy.forum.*")
 @ComponentScan(basePackages = "com.sy.forum.*")
-@MapperScan(basePackages = "com.sy.forum.*")
+@MapperScan(basePackages = "com.sy.forum.*.*.dao")
 @EnableAutoConfiguration
 public class ApplacationMain {
 

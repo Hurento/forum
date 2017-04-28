@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.forum.system.users.dao.UserDao">
+
+    <select id="getUserInfoByUsernameAndPassword" parameterType="String" resultType="com.sy.forum.system.users.model.UserInfo">
+        SELECT
+            s.l_user_id AS userId,
+            s.vc_user_name AS userName,
+            s.vc_login_name AS loginName,
+            s.vc_login_password AS loginPassword,
+            s.l_mobile_phone AS mobilePhone,
+            s.vc_email_adress AS emailAdress,
+            s.vc_card_no AS vcCardNo,
+            s.l_current_status AS cureentStatus,
+            s.l_error_count AS errorCount,
+            s.l_lock_status AS lockStatus,
+            DATE_FORMAT(s.vc_cureent_login_time,'%Y-%m-%d %H:%i:%s') AS currentLoginTime,
+            s.vc_curent_login_adress AS curentLoginAdress,
+            s.vc_curent_login_ip AS curentLoginIP
+        FROM sys_user s
+        WHERE 1=1
+            <if test='loginName != null || loginName != ""'>
+               AND s.vc_login_name = ${#loginName#,jdbcType=VARCHAR}
+            </if>
+            <if test='loginPassword != null || loginPassword != ""'>
+                AND s.vc_login_password = ${#loginPassword#,jdbcType=VARCHAR}
+            </if>
+
+    </select>
+<
+</mapper>

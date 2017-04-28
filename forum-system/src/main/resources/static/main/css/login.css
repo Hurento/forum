@@ -173,7 +173,7 @@
         margin-right:.5em
     }
     .user-login-5 .alert {
-        margin-top:-20px
+        margin-top:0
     }
 }@media (max-width:640px) {
     .user-login-5 .login-container>.login-content .text-right {

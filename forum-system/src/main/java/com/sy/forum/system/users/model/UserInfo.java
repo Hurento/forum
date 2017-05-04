@@ -1,8 +1,5 @@
 package com.sy.forum.system.users.model;
 
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.context.annotation.Bean;
-
 import java.io.Serializable;
 
 /**
@@ -12,19 +9,20 @@ import java.io.Serializable;
  * @Date 2017-04-20 11:40
  */
 public class UserInfo implements Serializable {
-    private String userId;
-    private String userName;
-    private String loginName;
-    private String loginPassword;
-    private String mobilePhone;
-    private String emailAdress;
-    private String vcCardNo;
-    private String cureentStatus;
-    private String errorCount;
-    private String lockStatus;
-    private String currentLoginTime;
-    private String curentLoginAdress;
-    private String curentLoginIP;
+    private String userId;// 用户id
+    private String userName;// 用户姓名
+    private String loginName;// 登录名称
+    private String loginPassword;// 登录密码
+    private String mobilePhone;// 移动电话
+    private String emailAdress;// 邮箱地址
+    private String vcCardNo;// 身份证号码
+    private String cureentStatus;// 用户当前状态
+    private String errorCount;// 登录错误次数
+    private String lockStatus;// 用户锁定状态
+    private String currentLoginTime;// 当前登录时间
+    private String curentLoginAdress;// 当前登录地址
+    private String curentLoginIP;// 当前登录ip
+    private String userType;//用户类型（0：前端、1：后端）
 
     public UserInfo() {
     }
@@ -136,5 +134,13 @@ public class UserInfo implements Serializable {
 
     public void setCurentLoginIP(String curentLoginIP) {
         this.curentLoginIP = curentLoginIP;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 }

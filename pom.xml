@@ -9,7 +9,6 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>forum-system</module>
-        <module>forum-students</module>
         <module>forum-startup</module>
         <module>forum-common</module>
     </modules>

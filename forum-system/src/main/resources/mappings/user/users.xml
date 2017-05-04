@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.forum.system.users.dao.UserDao">
+
+    <select id="getUserInfoByUsernameAndPassword" parameterType="String" resultType="com.sy.forum.system.users.model.UserInfo">
+        SELECT
+            s.l_user_id AS userId,
+            s.vc_user_name AS userName,
+            s.vc_login_name AS loginName,
+            s.vc_login_password AS loginPassword,
+            s.l_mobile_phone AS mobilePhone,
+            s.vc_email_adress AS emailAdress,
+            s.vc_card_no AS vcCardNo,
+            s.l_current_status AS cureentStatus,
+            s.l_error_count AS errorCount,
+            s.l_lock_status AS lockStatus,
+            DATE_FORMAT(
+            sl.d_cureent_login_time,
+            '%Y-%m-%d %H:%i:%s'
+            ) AS currentLoginTime,
+            sl.vc_curent_login_adress AS curentLoginAdress,
+            sl.vc_curent_login_ip AS curentLoginIP
+        FROM
+          sys_user s
+        LEFT JOIN (
+            SELECT
+                l2.l_user_id,
+                l2.d_cureent_login_time,
+                l2.vc_curent_login_adress,
+                l2.vc_curent_login_ip
+            FROM(
+                SELECT
+                    l.l_user_id,
+                    l.d_cureent_login_time,
+                    l.vc_curent_login_adress,
+                    l.vc_curent_login_ip
+                FROM
+                  sys_login_record l
+                ORDER BY
+                  l.d_cureent_login_time DESC
+            ) l2
+                GROUP BY
+                  l2.l_user_id
+            ) sl ON sl.l_user_id = s.l_user_id
+        WHERE
+          1 = 1
+            <if test='userType != null and userType != ""'>
+                AND s.l_user_type = #{userType,jdbcType=NUMERIC}
+            </if>
+            <if test='loginName != null and loginName != ""'>
+               AND s.vc_login_name = #{loginName,jdbcType=VARCHAR}
+            </if>
+            <if test='loginPassword != null and loginPassword != ""'>
+                AND s.vc_login_password = #{loginPassword,jdbcType=VARCHAR}
+            </if>
+
+    </select>
+
+    <!-- 登录成功-记录登录用户地理信息 -->
+    <insert id="insertLoginUserAddressInfo" parameterType="com.sy.forum.system.users.model.UserInfo">
+      INSERT INTO sys_login_record (
+            l_user_id,
+            vc_curent_login_adress,
+            vc_curent_login_ip,
+            d_cureent_login_time
+        )
+        VALUES(
+            #{userId, jdbcType=NUMERIC},
+            #{curentLoginAdress, jdbcType=VARCHAR},
+            #{curentLoginIP, jdbcType=VARCHAR},
+            NOW()
+        )
+    </insert>
+
+    <!-- 修改用户-登录成功修改错误次数与锁定状态 -->
+    <update id="updateUserLoginInfoByUserId" parameterType="String">
+        UPDATE sys_user s
+            SET s.l_error_count = 0,
+                s.l_lock_status = 0,
+                s.d_lock_date_time = null
+        WHERE
+            s.l_user_id = #{0}
+    </update>
+
+
+    <!-- 修改用户-锁定用户 -->
+    <update id="updateUserLockStatusByUserId" parameterType="String">
+        UPDATE sys_user s
+        SET s.l_lock_status = 1,
+            s.d_lock_date_time = now()
+        WHERE
+        s.l_user_id = #{0}
+    </update>
+
+    <!-- 修改用户-登录错误次数 -->
+    <update id="updateUserErrorCountByUserId" parameterType="String">
+        UPDATE sys_user s
+        SET s.l_error_count = #{0}
+        WHERE
+        s.l_user_id = #{1}
+    </update>
+</mapper>

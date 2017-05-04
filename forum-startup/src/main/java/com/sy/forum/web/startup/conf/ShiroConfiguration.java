@@ -61,14 +61,12 @@ public class ShiroConfiguration {
 
 
     /**
-     * 登录认证与授权缓存配置
+     * 登录认证与授权
      * @return
      */
     @Bean(name = "shiroRealm")
     public ShiroRealm getShiroRealm() {
-        ShiroRealm realm = new ShiroRealm();
-        realm.setCacheManager(getEhCacheManager());
-        return realm;
+        return new ShiroRealm();
     }
 
     /**
@@ -192,9 +190,9 @@ public class ShiroConfiguration {
     public ShiroFilterFactoryBean getShiroFilterFactoryBean() {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new REShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(getDefaultWebSecurityManager());
-        shiroFilterFactoryBean.setLoginUrl("/rest/login/initLoginPage");
+        shiroFilterFactoryBean.setLoginUrl("/system/login");
         shiroFilterFactoryBean.setSuccessUrl("/rest/home/homePage");
-        shiroFilterFactoryBean.setUnauthorizedUrl("/rest/login/403");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/system/401");
         loadShiroFilterChain(shiroFilterFactoryBean);
         return shiroFilterFactoryBean;
     }

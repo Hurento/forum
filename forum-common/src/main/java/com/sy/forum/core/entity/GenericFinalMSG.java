@@ -14,6 +14,7 @@ public class GenericFinalMSG {
     public final static String SUCCESS_DEL_MSG = "删除成功";
     public final static String SUCCESS_OPERATION_MSG = "操作成功";
     public final static String SUCCESS_LOGIN_MSG = "登录成功";
+    public final static String SUCCESS_LOGOUT_MSG = "退出登录成功";
 
     public final static String FAILED_CODE = "1";// 失败
     public final static String FAILED_SAVE_MSG = "保存失败";
@@ -25,6 +26,7 @@ public class GenericFinalMSG {
     public final static String FAILED_LOGIN_MSG = "登录失败，用户名与密码错误";
     public final static String FAILED_LOGIN_USER_MSG = "登录失败，用户名错误";
     public final static String FAILED_LOGIN_PASSWORD_MSG = "登录失败，密码错误";
+    public final static String FAILED_LOGIN_DISABLE_MSG = "用户已被禁用！";
     public final static String FAILED_LOGIN_LOCK_MSG = "您输入错误密码次数太多，用户已被锁定！请明天在尝试登录！";
-    public final static String FAILED_LOGIN_ENTERERROR_MSG = "您输入错误密码次数太多！用户将被锁定！";
+    public final static String FAILED_LOGIN_ENTERERROR_MSG = "您输入错误密码次数太多！COUNT次后用户将被锁定！";
 }

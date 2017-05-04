@@ -174,10 +174,27 @@ var GlobalCommon = function() {
             onEscape : true
         });
     }
+
+    var toastrInit = function() {
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "positionClass": "toast-top-right",
+            "onclick": null,
+            "showDuration": "1000",
+            "hideDuration": "1000",
+            "timeOut": "3000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+    }
     
 
 
-    return {
+    return {// GlobalCommon
         // main function to initiate the module
         init : function() {
             i18nInit();
@@ -187,6 +204,7 @@ var GlobalCommon = function() {
             ajaxTimeToken();
             // bootbox设置默认属性 esc按键关闭等
             bootboxInit();
+            //toastrInit();
         },
         getRootUrl : function(url) {
             return getRootUrl(url);

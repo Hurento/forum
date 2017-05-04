@@ -1,22 +1,23 @@
 package com.sy.forum.system.main.controller;
 
-import com.sy.forum.core.entity.Result;
-import com.sy.forum.system.users.service.UserService;
-import com.sy.forum.core.entity.GenericFinal;
 import com.sy.forum.core.entity.GenericFinalMSG;
+import com.sy.forum.core.entity.Result;
 import com.sy.forum.core.entity.UnitedLogger;
 import com.sy.forum.system.users.model.UserInfo;
+import com.sy.forum.system.users.service.UserService;
+import com.sy.forum.utils.AddressUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @Author SY
@@ -25,18 +26,13 @@ import org.springframework.web.servlet.ModelAndView;
  * @Date 2017-04-20 10:24
  */
 @Controller
-@RequestMapping("/rest/login")
+@RequestMapping("/system")
 public class LoginController {
-
-//    @Bean
-//    public UserService getUserService(){
-//        return new UserServiceImpl();
-//    }
 
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/initLoginPage", method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView initLoginPage() {
         ModelAndView view = new ModelAndView();
         view.setViewName("main/login");
@@ -49,14 +45,9 @@ public class LoginController {
      * @return
      */
     @RequestMapping(value = "/signIn", method = RequestMethod.POST)
-    public Result signIn(@RequestBody UserInfo userInfo, BindingResult bindingResult) {
+    public @ResponseBody Result signIn(@RequestBody UserInfo userInfo,HttpServletRequest request) {
         Result result = new Result();
-        ModelAndView view = new ModelAndView();
         try {
-            if(bindingResult.hasErrors()){
-               // view.setViewName("redirect:/rest/login/initLoginPage");
-                return result;
-            }
             //登录 token
             UsernamePasswordToken token = new UsernamePasswordToken(userInfo.getLoginName(), userInfo.getLoginPassword());
             //获取当前的Subject
@@ -68,60 +59,46 @@ public class LoginController {
             currentUser.login(token);
             //验证是否登录成功
             if(currentUser.isAuthenticated()){
-               // view.setViewName("redirect:/rest/home/homePage");
-                view.addObject(GenericFinal.RESULTCODE, GenericFinalMSG.SUCCESS_CODE);
-                view.addObject(GenericFinal.MESSAGE,GenericFinalMSG.SUCCESS_LOGIN_MSG);
+                userInfo = userService.getUserInfoByUsernameAndPassword(userInfo);
+                // 成功登录，修改登录错误时间、次数、锁定状态
+                userService.updateUserLoginInfoByUserId(userInfo.getUserId());
+                UserInfo loginInfo = new UserInfo();
+                loginInfo.setUserId(userInfo.getUserId());
+                String ip = AddressUtils.getIp(request);
+                String address = AddressUtils.getAddresses("ip="+ip, "utf-8");
+                loginInfo.setCurentLoginIP(ip);
+                loginInfo.setCurentLoginAdress(address);
+                //登录用户地理位置信息
+                userService.insertLoginUserAddressInfo(loginInfo);
                 result.setMessage(GenericFinalMSG.SUCCESS_LOGIN_MSG);
                 result.setResultCode(GenericFinalMSG.SUCCESS_CODE);
             } else {
                 token.clear();
-               //view.setViewName("redirect:/rest/login/initLoginPage");
-                view.addObject(GenericFinal.RESULTCODE,GenericFinalMSG.FAILED_CODE);
-                view.addObject(GenericFinal.MESSAGE,GenericFinalMSG.FAILED_LOGIN_MSG);
                 result.setMessage(GenericFinalMSG.FAILED_LOGIN_MSG);
                 result.setResultCode(GenericFinalMSG.FAILED_CODE);
             }
         } catch(UnknownAccountException uae){
             UnitedLogger.error(uae);
-            System.out.println("对用户[" + userInfo.getUserName() + "]进行登录验证..验证未通过,未知账户");
-            //view.setViewName("redirect:/rest/login/initLoginPage");
-            view.addObject(GenericFinal.RESULTCODE,GenericFinalMSG.FAILED_CODE);
-            view.addObject(GenericFinal.MESSAGE,GenericFinalMSG.FAILED_LOGIN_UNKNOW_MSG);
-            result.setMessage(GenericFinalMSG.FAILED_LOGIN_UNKNOW_MSG);
+            System.out.println("对用户[" + userInfo.getLoginName() + "]进行登录验证..验证未通过,未知账户");
+            result.setMessage(uae.getMessage());
             result.setResultCode(GenericFinalMSG.FAILED_CODE);
         } catch(LockedAccountException lae){
             UnitedLogger.error(lae);
-            System.out.println("对用户[" + userInfo.getUserName() + "]进行登录验证..验证未通过,账户已锁定");
-            //view.setViewName("redirect:/rest/login/initLoginPage");
-            view.addObject(GenericFinal.RESULTCODE,GenericFinalMSG.FAILED_CODE);
-            view.addObject(GenericFinal.MESSAGE,GenericFinalMSG.FAILED_LOGIN_LOCK_MSG);
-            result.setMessage(GenericFinalMSG.FAILED_LOGIN_LOCK_MSG);
+            System.out.println("对用户[" + userInfo.getLoginName() + "]进行登录验证..验证未通过,账户已锁定");
+            result.setMessage(lae.getMessage());
             result.setResultCode(GenericFinalMSG.FAILED_CODE);
         } catch(ExcessiveAttemptsException eae){
             UnitedLogger.error(eae);
-            System.out.println("对用户[" + userInfo.getUserName() + "]进行登录验证..验证未通过,错误次数过多");
-
-            //view.setViewName("redirect:/rest/login/initLoginPage");
-            view.addObject(GenericFinal.RESULTCODE,GenericFinalMSG.FAILED_CODE);
-            view.addObject(GenericFinal.MESSAGE,GenericFinalMSG.FAILED_LOGIN_ENTERERROR_MSG);
-            result.setMessage(GenericFinalMSG.FAILED_LOGIN_ENTERERROR_MSG);
+            System.out.println("对用户[" + userInfo.getLoginName() + "]进行登录验证..验证未通过,错误次数过多");
+            result.setMessage(eae.getMessage());
             result.setResultCode(GenericFinalMSG.FAILED_CODE);
         } catch(AuthenticationException ae){
             UnitedLogger.error(ae);
-            //通过处理Shiro的运行时AuthenticationException就可以控制用户登录失败或密码错误时的情景
-            System.out.println("对用户[" + userInfo.getUserName() + "]进行登录验证..验证未通过,堆栈轨迹如下");
-            //view.setViewName("redirect:/rest/login/initLoginPage");
-            view.addObject(GenericFinal.RESULTCODE,GenericFinalMSG.FAILED_CODE);
-            view.addObject(GenericFinal.MESSAGE,GenericFinalMSG.FAILED_LOGIN_MSG);
-            result.setMessage(GenericFinalMSG.FAILED_LOGIN_MSG);
+            result.setMessage(ae.getMessage());
             result.setResultCode(GenericFinalMSG.FAILED_CODE);
-            //ae.printStackTrace();
         }  catch (Exception e) {
             UnitedLogger.error(e);
-            //view.setViewName("redirect:/rest/login/initLoginPage");
-            view.addObject(GenericFinal.RESULTCODE,GenericFinalMSG.FAILED_CODE);
-            view.addObject(GenericFinal.MESSAGE,GenericFinalMSG.FAILED_UNKNOW_MSG);
-            result.setMessage(GenericFinalMSG.SUCCESS_LOGIN_MSG);
+            result.setMessage(GenericFinalMSG.FAILED_UNKNOW_MSG);
             result.setResultCode(GenericFinalMSG.FAILED_CODE);
         }
         return result;
@@ -131,20 +108,29 @@ public class LoginController {
      * 退出登录
      * @return
      */
-    @RequestMapping(value = "/signOut", method = RequestMethod.GET)
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(){
         //使用权限管理工具进行用户的退出，跳出登录，给出提示信息
         SecurityUtils.getSubject().logout();
-        return "redirect:/rest/login/initLoginPage";
+        return "/system/login";
+    }
+
+    /**
+     * 错误的请求
+     * @return
+     */
+    @RequestMapping("/400")
+    public String errorRequest(){
+        return "/400";
     }
 
     /**
      * 没有权限
      * @return
      */
-    @RequestMapping("/403")
+    @RequestMapping("/401")
     public String unauthorizedRole(){
-        return "/403";
+        return "/401";
     }
 
     /**
@@ -154,6 +140,15 @@ public class LoginController {
     @RequestMapping("/404")
     public String notFountPath(){
         return "/404";
+    }
+
+    /**
+     * 不允许的方法
+     * @return
+     */
+    @RequestMapping("/405")
+    public String methodNotAllowed(){
+        return "/405";
     }
 
     /**

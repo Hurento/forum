@@ -44,8 +44,10 @@ var LoginAccount = function() {
                 r.insertAfter(e.closest(".input-icon"))
             },
             submitHandler: function(r) {
+                //login();
             }
         }),
+        $('input[name="loginName"]').focus(),
         $("#login-btn").keypress(function () {
             if($('.form-login').validate().form()) {
                 login();
@@ -59,7 +61,7 @@ var LoginAccount = function() {
         $('.form-login input').keypress(function(e) {
             if (e.which == 13) {
                 if ($('.form-login').validate().form()) {
-                    //login();
+                    login();
                 }
                 return false;
             }
@@ -84,30 +86,52 @@ var LoginAccount = function() {
     login = function(){
         var v = $('input[name$="loginPassword"]').val(),
             options,
-            password = paramEncryptionPassword(v),
+            password = CryptoJS.MD5(v).toString(),
             loginName = $('input[name$="loginName"]').val(),
             data = {
                 loginName: loginName,
-                loginPassword: password
+                loginPassword: GlobalCommon.paramEncryption(password + "-" + GlobalCommon.paramEncryption("1"))
             };
             $('input[name$="loginPassword"]').val(password);
 
         options = {
-                url: "/rest/login/signIn",
-                alertType: 'noAlter',
+                url: "/system/signIn",
                 dataType: 'JSON',
                 async: false,
                 data : JSON.stringify(data),
                 callback : function (data) {
-
+                    if(data.resultCode == "0") {
+                        location.href = "/rest/home/homePage";
+                    } else {
+                        $('[name="loginPassword"]').val("");//清空密码
+                        $('[name="loginPassword"]').focus();
+                        swal("系统提示", data.message, "error");
+                        //案例
+                        // layer.open({
+                        //     id: 'parent-window',
+                        //     type: 2,
+                        //     title: "Window",
+                        //     maxmin: true,
+                        //     area: ['800px', '500px'],
+                        //     shade: 0.8,
+                        //     closeBtn: 0,
+                        //     shadeClose: true,
+                        //     content: ['/system/400'],
+                        //     btn:['yes','close'],
+                        //     yes: function(index, layero){
+                        //         //按钮【按钮一】的回调
+                        //     },
+                        //     close: function(index, layero){
+                        //         //按钮【按钮一】的回调
+                        //     }
+                        // });
+                    }
                 }
             };
 
         GlobalUtil.globalAjaxCallback(options);
-    },
-    paramEncryptionPassword = function (v) {
-        return GlobalCommon.paramEncryption(v);
     };
+
     return {
         init: function() {
             r(),

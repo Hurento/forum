@@ -338,35 +338,6 @@ var GlobalUtil = function() {
 	    });
     }
 
-    /**
-     * 提示
-     */
-    var globalConfirm = function(message, callBack, cancelBack) {
-        message = GlobalUtil.valiadedIsEmpty(message) ? i18n.t('GENERAL.CONFIRM.GEN') : message;
-        bootbox.confirm({
-            size: 'small',
-            message: message,
-            buttons: {
-                confirm: {
-                    label: i18n.t('GENERAL.OK')
-                },
-                cancel: {
-                    label: i18n.t('GENERAL.CANCEL')
-                }
-            },
-            callback: function (v) {
-                if (v) {
-                    callBack();
-                } else {
-                    try {
-                        cancelBack();
-                    } catch (e) {
-                    }
-                }
-            }
-        });
-    }
-
 	/**
 	 * 请求类型
 	 * @param type
@@ -409,6 +380,34 @@ var GlobalUtil = function() {
 	}
 
     /**
+     * 提示
+     */
+    var globalConfirm = function(type, message, callBack, cancelBack) {
+        message = dataEmpty(message) ? i18n.t('GENERAL.CONFIRM.GEN') : message;
+        type = dataEmpty(type) ? "warning" : type;
+        swal({
+            title: "系统提示",
+            text: message,
+            type: type,
+			showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            cancelButtonText: "Cancel",
+            confirmButtonText: "Ok",
+            closeOnConfirm: true,
+			closeOnCancel: true
+        }, function (v) {
+            if (v) {
+                callBack();
+            } else {
+                try {
+                    cancelBack();
+                } catch (e) {
+                }
+            }
+        });
+    }
+
+    /**
      * 通用ajax请求
      * obj 参数对象
      * type: 根据类型指定提示方式
@@ -430,47 +429,7 @@ var GlobalUtil = function() {
                 obj.callback(data);
             },
             success : function(data) {
-				alert(JSON.stringify(data));
-				var dataType = getDataType(obj.dataType).toLowerCase();
-                var result = data;
-                var dataHtml = "";
-				if (dataType == "json") {
-					if (result.resultCode == 0) {
-						dataHtml = i18n.t('GENERAL.SUCCESS');
-					} else {
-						dataHtml = result.message;
-					}
-					var type = obj.alertType;
-					if(type == "alter") {// alert 提示并回调
-						bootbox.alert({
-							size : 'small',
-							message : dataHtml,
-							callback : function(v) {
-								obj.callback(data);
-							}
-						});
-					} else if(type == "comfirm") {//
-						bootbox.confirm({
-							size : 'small',
-							message : i18n.t('GENERAL.CONFIRM.GEN'),
-							buttons : {
-								confirm : {
-									label : i18n.t('GENERAL.OK')
-								},
-								cancel : {
-									label : i18n.t('GENERAL.CANCEL')
-								}
-							},
-							callback : function(v) {
-								if(v) {
-									obj.callback(data);
-								}
-							}
-						});
-					} else if(type == "noAlter") {
-						obj.callback(data);
-					}
-				}
+                obj.callback(data);
             }
         });
     }
@@ -481,9 +440,6 @@ var GlobalUtil = function() {
 		},
 		subValue : function(value1, value2) {
 			return subValue(value1, value2);
-		},
-		dealDataTableAjaxData : function(d) {
-			return dealDataTableAjaxData(d);
 		},
 		removeSignleDialog : function(obj) {
 			return removeSignleDialog(obj);

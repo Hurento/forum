@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.forum.system.main.dao.MenuItemsDao">
+
+    <select id="getUserInfoByUsernameAndPassword"
+            parameterType="com.sy.forum.system.main.model.MenuItems"
+            resultType="com.sy.forum.system.main.model.MenuItems">
+          SELECT
+                m.l_menu_id AS menuItemId,
+                m.l_parent_menu_id AS parentMenuId,
+                m.vc_menu_key AS menuKey,
+                m.vc_menu_show_type AS menuShowType,
+                m.vc_url AS vcUrl,
+                m.vc_icon AS vcIcon,
+                m.l_status AS vcStatus,
+                m.vc_menu_describe AS menuDescribe
+            FROM
+                sys_menu_item m
+    </select>
+
+</mapper>

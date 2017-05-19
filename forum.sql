@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2017-05-05 18:19:06
+Date: 2017-05-19 19:02:45
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -57,12 +57,14 @@ CREATE TABLE `sys_login_record` (
   `vc_curent_login_ip` varchar(255) DEFAULT NULL COMMENT '当前登录IP',
   `d_cureent_login_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '当前登录时间',
   PRIMARY KEY (`l_login_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_login_record
 -- ----------------------------
 INSERT INTO `sys_login_record` VALUES ('1', '1000', '', '192.168.1.43', '2017-05-05 09:17:48');
+INSERT INTO `sys_login_record` VALUES ('2', '1000', '', '127.0.0.1', '2017-05-19 11:12:44');
+INSERT INTO `sys_login_record` VALUES ('3', '1000', '', '127.0.0.1', '2017-05-19 13:20:48');
 
 -- ----------------------------
 -- Table structure for sys_menu_item
@@ -130,7 +132,7 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1000', '管理员', '21218cca77804d2ba1922c33e0151105', 'admin', '18717905137', 'carl_email_96@163.com', null, '0', '1', '0', '0', '2017-05-04 16:32:28', null);
+INSERT INTO `sys_user` VALUES ('1000', '管理员', '21218cca77804d2ba1922c33e0151105', 'admin', '18717905137', 'carl_email_96@163.com', null, '0', '1', '0', '0', '2017-05-19 13:20:48', null);
 
 -- ----------------------------
 -- Table structure for sys_visit_permission_init
@@ -143,7 +145,7 @@ CREATE TABLE `sys_visit_permission_init` (
   `l_sort` int(255) NOT NULL COMMENT '排序',
   `vc_status` varchar(10) DEFAULT NULL COMMENT '状态',
   PRIMARY KEY (`l_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sys_visit_permission_init
@@ -159,3 +161,6 @@ INSERT INTO `sys_visit_permission_init` VALUES ('11', '/system/500', 'anon', '99
 INSERT INTO `sys_visit_permission_init` VALUES ('12', '/system/400', 'anon', '999986', '0');
 INSERT INTO `sys_visit_permission_init` VALUES ('13', '/system/signIn', 'anon', '999996', '0');
 INSERT INTO `sys_visit_permission_init` VALUES ('15', '/system/405', 'anon', '999985', '0');
+INSERT INTO `sys_visit_permission_init` VALUES ('16', '/localeLanguage/langType', 'anon', '999995', '0');
+INSERT INTO `sys_visit_permission_init` VALUES ('17', '/system/login?lang=zh_CN', 'anon', '999998', '0');
+INSERT INTO `sys_visit_permission_init` VALUES ('18', '/system/login?lang=en_US', 'anon', '999998', '0');

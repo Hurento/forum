@@ -1,23 +1,25 @@
 package com.sy.forum.system.main.controller;
 
-import com.sy.forum.core.entity.GenericFinalMSG;
+import com.sy.forum.core.entity.GenericFinal;
 import com.sy.forum.core.entity.Result;
 import com.sy.forum.core.entity.UnitedLogger;
 import com.sy.forum.system.users.model.UserInfo;
 import com.sy.forum.system.users.service.UserService;
 import com.sy.forum.utils.AddressUtils;
+import com.sy.forum.utils.LocaleUtil;
+import com.sy.forum.utils.Utils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @Author SY
@@ -31,11 +33,17 @@ public class LoginController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private  LocaleResolver localeResolver;
+    @Autowired
+    private LocaleUtil localeUtil;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ModelAndView initLoginPage() {
+    public ModelAndView initLoginPage(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "lang", defaultValue = "zh_CN") String lang) {
+        LocaleUtil.exchangeLocale(request, lang);
         ModelAndView view = new ModelAndView();
         view.setViewName("main/login");
+        view.addObject("langType", lang);
         return view;
     }
 
@@ -45,9 +53,15 @@ public class LoginController {
      * @return
      */
     @RequestMapping(value = "/signIn", method = RequestMethod.POST)
-    public @ResponseBody Result signIn(@RequestBody UserInfo userInfo,HttpServletRequest request) {
+    public @ResponseBody Result signIn(Model model, HttpServletRequest request, HttpServletResponse response,
+                                       @RequestBody UserInfo userInfo,
+                                       @ModelAttribute String lang) {
         Result result = new Result();
         try {
+            if (!Utils.isEmpty(lang)) {
+                LocaleUtil.exchangeLocale(request, lang);
+                model.addAttribute("lang", lang);
+            }
             //登录 token
             UsernamePasswordToken token = new UsernamePasswordToken(userInfo.getLoginName(), userInfo.getLoginPassword());
             //获取当前的Subject
@@ -70,36 +84,37 @@ public class LoginController {
                 loginInfo.setCurentLoginAdress(address);
                 //登录用户地理位置信息
                 userService.insertLoginUserAddressInfo(loginInfo);
-                result.setMessage(GenericFinalMSG.SUCCESS_LOGIN_MSG);
-                result.setResultCode(GenericFinalMSG.SUCCESS_CODE);
+
+                result.setMessage(GenericFinal.MSG_SUCCESS_LOGIN);
+                result.setResultCode(GenericFinal.MSG_SUCCESS_CODE);
             } else {
                 token.clear();
-                result.setMessage(GenericFinalMSG.FAILED_LOGIN_MSG);
-                result.setResultCode(GenericFinalMSG.FAILED_CODE);
+                result.setMessage(GenericFinal.MSG_FAILED_LOGIN);
+                result.setResultCode(GenericFinal.MSG_FAILED_CODE);
             }
         } catch(UnknownAccountException uae){
             UnitedLogger.error(uae);
             System.out.println("对用户[" + userInfo.getLoginName() + "]进行登录验证..验证未通过,未知账户");
             result.setMessage(uae.getMessage());
-            result.setResultCode(GenericFinalMSG.FAILED_CODE);
+            result.setResultCode(GenericFinal.MSG_FAILED_CODE);
         } catch(LockedAccountException lae){
             UnitedLogger.error(lae);
             System.out.println("对用户[" + userInfo.getLoginName() + "]进行登录验证..验证未通过,账户已锁定");
             result.setMessage(lae.getMessage());
-            result.setResultCode(GenericFinalMSG.FAILED_CODE);
+            result.setResultCode(GenericFinal.MSG_FAILED_CODE);
         } catch(ExcessiveAttemptsException eae){
             UnitedLogger.error(eae);
             System.out.println("对用户[" + userInfo.getLoginName() + "]进行登录验证..验证未通过,错误次数过多");
             result.setMessage(eae.getMessage());
-            result.setResultCode(GenericFinalMSG.FAILED_CODE);
+            result.setResultCode(GenericFinal.MSG_FAILED_CODE);
         } catch(AuthenticationException ae){
             UnitedLogger.error(ae);
             result.setMessage(ae.getMessage());
-            result.setResultCode(GenericFinalMSG.FAILED_CODE);
+            result.setResultCode(GenericFinal.MSG_FAILED_CODE);
         }  catch (Exception e) {
             UnitedLogger.error(e);
-            result.setMessage(GenericFinalMSG.FAILED_UNKNOW_MSG);
-            result.setResultCode(GenericFinalMSG.FAILED_CODE);
+            result.setMessage(localeUtil.loadLocalString(GenericFinal.MSG_FAILED_UNKNOW));
+            result.setResultCode(GenericFinal.MSG_FAILED_CODE);
         }
         return result;
     }

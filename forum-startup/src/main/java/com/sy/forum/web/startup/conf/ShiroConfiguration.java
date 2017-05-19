@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.i18n.LocaleContextHolder;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -190,7 +191,7 @@ public class ShiroConfiguration {
     public ShiroFilterFactoryBean getShiroFilterFactoryBean() {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new REShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(getDefaultWebSecurityManager());
-        shiroFilterFactoryBean.setLoginUrl("/system/login");
+        shiroFilterFactoryBean.setLoginUrl("/system/login?lang=" + LocaleContextHolder.getLocale());
         shiroFilterFactoryBean.setSuccessUrl("/rest/home/homePage");
         shiroFilterFactoryBean.setUnauthorizedUrl("/system/401");
         loadShiroFilterChain(shiroFilterFactoryBean);

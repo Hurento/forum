@@ -88,8 +88,10 @@ var LoginAccount = function() {
             options,
             password = CryptoJS.MD5(v).toString(),
             loginName = $('input[name$="loginName"]').val(),
+            language = $('input[name="language"]').attr("data-id"),
             data = {
                 loginName: loginName,
+                langType: language,
                 loginPassword: GlobalCommon.paramEncryption(password + "-" + GlobalCommon.paramEncryption("1"))
             };
             $('input[name$="loginPassword"]').val(password);
@@ -130,20 +132,45 @@ var LoginAccount = function() {
             };
 
         GlobalUtil.globalAjaxCallback(options);
+    },
+    changeLanguage = function(lang, language) {
+        var data = {
+            lang: lang
+        },
+        options = {
+            url: "/localeLanguage/langType",
+            dataType: 'JSON',
+            type: 'GET',
+            async: false,
+            data : data = {
+                lang: lang
+            },
+            callback : function (data) {
+                if(data.resultCode == "0") {
+                    location.href = data.message;
+                }
+            }
+        };
+        GlobalUtil.globalAjaxCallback(options);
     };
 
     return {
         init: function() {
             r(),
-                $(".login-bg").backstretch([
-                    "/global/plugins/pages/img/login/bg1.jpg",
-                    "/global/plugins/pages/img/login/bg2.jpg",
-                    "/global/plugins/pages/img/login/bg3.jpg"
-                ], {
-                    fade: 1000,
-                    duration: 8000
-                }),
-                $(".forget-form").hide();
+            $(".login-bg").backstretch([
+                "/global/plugins/pages/img/login/bg1.jpg",
+                "/global/plugins/pages/img/login/bg2.jpg",
+                "/global/plugins/pages/img/login/bg3.jpg"
+            ], {
+                fade: 1000,
+                duration: 8000
+            }),
+            $(".forget-form").hide(),
+            $(".language-bind").find("li").click(function() {//绑定语言选择事件
+                var lang = $.trim($(this).find("a").attr("data-id"));
+                var language = $.trim($(this).find("a").text());
+                changeLanguage(lang, language);
+            });
         }
     }
 } ();

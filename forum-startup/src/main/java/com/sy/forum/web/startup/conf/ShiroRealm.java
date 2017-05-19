@@ -1,9 +1,9 @@
 package com.sy.forum.web.startup.conf;
 
 import com.sy.forum.core.entity.GenericFinal;
-import com.sy.forum.core.entity.GenericFinalMSG;
 import com.sy.forum.system.users.model.UserInfo;
 import com.sy.forum.system.users.service.UserService;
+import com.sy.forum.utils.LocaleUtil;
 import com.sy.forum.utils.Utils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -24,6 +24,8 @@ public class ShiroRealm extends AuthorizingRealm {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private  LocaleUtil localeUtil;
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
@@ -69,10 +71,10 @@ public class ShiroRealm extends AuthorizingRealm {
         if(!Utils.isEmpty(user)){
             // 验证用户是否被禁用
             if (GenericFinal.NUMBER_ONE.equals(user.getCureentStatus()))
-                throw new LockedAccountException(GenericFinalMSG.FAILED_LOGIN_DISABLE_MSG);
+                throw new LockedAccountException(localeUtil.loadLocalString(GenericFinal.MSG_FAILED_LOGIN_DISABLE));
             // 验证是否锁定,已被锁定用户不能成功登录到系统
             if (GenericFinal.NUMBER_ONE.equals(user.getLockStatus()))
-                throw new LockedAccountException(GenericFinalMSG.FAILED_LOGIN_LOCK_MSG);
+                throw new LockedAccountException(localeUtil.loadLocalString(GenericFinal.MSG_FAILED_LOGIN_LOCK));
 
             // 若存在，将此用户存放到登录认证info中，无需自己做密码对比，Shiro会为我们进行密码对比校验
             return new SimpleAuthenticationInfo(user.getLoginName(), password, getName());
@@ -86,10 +88,10 @@ public class ShiroRealm extends AuthorizingRealm {
             if(!Utils.isEmpty(isUser)) {
                 // 验证用户是否被禁用
                 if (GenericFinal.NUMBER_ONE.equals(isUser.getCureentStatus()))
-                    throw new LockedAccountException(GenericFinalMSG.FAILED_LOGIN_DISABLE_MSG);
+                    throw new LockedAccountException(localeUtil.loadLocalString(GenericFinal.MSG_FAILED_LOGIN_DISABLE));
                 // 验证是否锁定
                 if (GenericFinal.NUMBER_ONE.equals(isUser.getLockStatus()))
-                    throw new LockedAccountException(GenericFinalMSG.FAILED_LOGIN_LOCK_MSG);
+                    throw new LockedAccountException(localeUtil.loadLocalString(GenericFinal.MSG_FAILED_LOGIN_LOCK));
                 // 最大错误次数
                 int maxErrorCount = Integer.valueOf(GenericFinal.NUMBER_FIVE);
                 // 默认错误次数
@@ -102,16 +104,16 @@ public class ShiroRealm extends AuthorizingRealm {
                 if(maxErrorCount == errorCount) {
                     //锁定用户
                     userService.updateUserLockStatusByUserId(isUser.getUserId());
-                    throw new LockedAccountException(GenericFinalMSG.FAILED_LOGIN_LOCK_MSG);
+                    throw new LockedAccountException(localeUtil.loadLocalString(GenericFinal.MSG_FAILED_LOGIN_LOCK));
                 }
                 // 验证登录错误次数,大于等于三次后提示并修改错误次数
                 if (errorCount >= defaultErrorCount) {
-                    throw new ExcessiveAttemptsException(GenericFinalMSG.FAILED_LOGIN_ENTERERROR_MSG.replace("COUNT", String.valueOf(maxErrorCount - errorCount)));
+                    throw new ExcessiveAttemptsException(localeUtil.loadLocalString(GenericFinal.MSG_FAILED_LOGIN_ENTERERROR).replace("COUNT", String.valueOf(maxErrorCount - errorCount)));
                 }
                 // 密码错误
-                throw new AuthenticationException(GenericFinalMSG.FAILED_LOGIN_PASSWORD_MSG);
+                throw new AuthenticationException(localeUtil.loadLocalString(GenericFinal.MSG_FAILED_LOGIN_PASSWORD));
             } else {
-                throw new UnknownAccountException(GenericFinalMSG.FAILED_LOGIN_UNKNOW_MSG);
+                throw new UnknownAccountException(localeUtil.loadLocalString(GenericFinal.MSG_FAILED_LOGIN_UNKNOW));
             }
         }
     }

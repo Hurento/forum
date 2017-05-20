@@ -2,6 +2,7 @@ package com.sy.forum.system.main.controller;
 
 import com.sy.forum.core.entity.GenericFinal;
 import com.sy.forum.core.entity.Result;
+import com.sy.forum.core.entity.SessionAttributeFinal;
 import com.sy.forum.core.entity.UnitedLogger;
 import com.sy.forum.system.users.model.UserInfo;
 import com.sy.forum.system.users.service.UserService;
@@ -40,7 +41,6 @@ public class LoginController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView initLoginPage(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "lang", defaultValue = "zh_CN") String lang) {
-        LocaleUtil.exchangeLocale(request, lang);
         ModelAndView view = new ModelAndView();
         view.setViewName("main/login");
         view.addObject("langType", lang);
@@ -58,10 +58,6 @@ public class LoginController {
                                        @ModelAttribute String lang) {
         Result result = new Result();
         try {
-            if (!Utils.isEmpty(lang)) {
-                LocaleUtil.exchangeLocale(request, lang);
-                model.addAttribute("lang", lang);
-            }
             //登录 token
             UsernamePasswordToken token = new UsernamePasswordToken(userInfo.getLoginName(), userInfo.getLoginPassword());
             //获取当前的Subject
@@ -84,7 +80,7 @@ public class LoginController {
                 loginInfo.setCurentLoginAdress(address);
                 //登录用户地理位置信息
                 userService.insertLoginUserAddressInfo(loginInfo);
-
+                request.getSession().setAttribute(SessionAttributeFinal.USERINFO, userInfo);
                 result.setMessage(GenericFinal.MSG_SUCCESS_LOGIN);
                 result.setResultCode(GenericFinal.MSG_SUCCESS_CODE);
             } else {

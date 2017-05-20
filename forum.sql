@@ -95,7 +95,7 @@ INSERT INTO `sys_menu_item` VALUES ('1006', '1001', 'group-menu', 'menu.uifeatur
 INSERT INTO `sys_menu_item` VALUES ('1007', '1001', 'group-menu', 'menu.uifeatures.colors', 'icon-settings', null, '0', 'Item 2');
 INSERT INTO `sys_menu_item` VALUES ('1008', '1001', 'group-menu', 'menu.uifeatures.generalcomponents', 'icon-settings', null, '0', 'Item 3');
 INSERT INTO `sys_menu_item` VALUES ('1009', '1001', 'group-menu', 'menu.uifeatures.spinnerbuttons', 'icon-settings', null, '0', 'Item 4');
-INSERT INTO `sys_menu_item` VALUES ('1010', '1001', 'group-menu', 'menu.uifeatures.fonticons ', 'icon-settings', null, '0', 'Item 5');
+INSERT INTO `sys_menu_item` VALUES ('1010', '1001', 'group-menu', 'menu.uifeatures.fonticons', 'icon-settings', null, '0', 'Item 5');
 INSERT INTO `sys_menu_item` VALUES ('1011', '1001', 'group-menu', 'menu.uifeatures.socialicons', 'icon-settings', null, '0', 'Item 6');
 INSERT INTO `sys_menu_item` VALUES ('1012', '1001', 'group-menu', 'menu.uifeatures.typography', 'icon-settings', null, '0', 'Item 7');
 INSERT INTO `sys_menu_item` VALUES ('1013', '1002', 'single-menu', 'menu.layout.lightmegamenu', 'icon-settings', null, '0', 'Item 1');

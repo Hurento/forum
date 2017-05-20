@@ -8,6 +8,16 @@ package com.sy.forum.core.entity;
  */
 public class GenericFinal {
 
+    public final static String DEFAULT_HOME_KEY = "key.defaultKey";
+    public final static String DEFAULT_HOME_CONTENT = "key.defaultContent";
+    public final static String KEY = "key";
+    public final static String CONTENT = "content";
+    public final static String POINT = ".";
+    public final static String SINGLR_MENU = "single-menu";
+    public final static String GROUP_MENU = "group-menu";
+    public final static String TREE_MENU = "tree-menu";
+
+
     public final static String MESSAGE = "message";
     public final static String RESULTCODE = "resultCode";
     public final static String NUMBER_ZERO = "0";

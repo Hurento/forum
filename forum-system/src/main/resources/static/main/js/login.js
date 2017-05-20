@@ -103,7 +103,7 @@ var LoginAccount = function() {
                 data : JSON.stringify(data),
                 callback : function (data) {
                     if(data.resultCode == "0") {
-                        location.href = "/rest/home/homePage";
+                        location.href = "/rest/home/homePage/defaultKey/defaultContent";
                     } else {
                         $('[name="loginPassword"]').val("");//清空密码
                         $('[name="loginPassword"]').focus();

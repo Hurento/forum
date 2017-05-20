@@ -35,13 +35,13 @@
     <div class="col-md-12 page-500">
         <div class="number font-red"> 401 </div>
         <div class=" details">
-            <h3>Oops! You do not have permission to access.</h3>
+            <h3 th:utext="#{error.401.title}"></h3>
             <p>
-                Please apply for authorization.
+                <span th:utext="#{error.401.prompt}" th:remove="tag"></span>
                 <br/>
             </p>
             <p>
-                <a href="index.html" class="btn red btn-outline"> Return home </a>
+                <a href="javascript:window.history.back();" class="btn red btn-outline" th:utext="#{error.back}"></a>
                 <br/>
             </p>
         </div>

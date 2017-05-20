@@ -1,21 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sy.forum.system.main.dao.MenuItemsDao">
+    <resultMap id="menuMap" type="com.sy.forum.system.main.model.MenuItems">
+        <result column="l_menu_id" property="menuItemId" />
+        <result column="l_parent_menu_id" property="parentMenuId" />
+        <result column="vc_menu_key" property="menuKey" />
+        <result column="vc_menu_show_type" property="menuShowType" />
+        <result column="vc_url" property="vcUrl" />
+        <result column="vc_icon" property="vcIcon" />
+        <result column="l_status" property="vcStatus" />
+        <result column="vc_menu_describe" property="menuDescribe" />
 
-    <select id="getUserInfoByUsernameAndPassword"
+        <collection property="childItems" column="l_menu_id" javaType="java.util.ArrayList" ofType="com.sy.forum.system.main.model.MenuItems" select="findMenuItemsListById"/>
+    </resultMap>
+    <select id="findMenuItemsList"
             parameterType="com.sy.forum.system.main.model.MenuItems"
-            resultType="com.sy.forum.system.main.model.MenuItems">
+            resultMap="menuMap">
           SELECT
-                m.l_menu_id AS menuItemId,
-                m.l_parent_menu_id AS parentMenuId,
-                m.vc_menu_key AS menuKey,
-                m.vc_menu_show_type AS menuShowType,
-                m.vc_url AS vcUrl,
-                m.vc_icon AS vcIcon,
-                m.l_status AS vcStatus,
-                m.vc_menu_describe AS menuDescribe
+                m.l_menu_id,
+                m.l_parent_menu_id,
+                m.vc_menu_key,
+                m.vc_menu_show_type,
+                m.vc_url,
+                m.vc_icon,
+                m.l_status,
+                m.vc_menu_describe
             FROM
                 sys_menu_item m
+            where 1=1
+            <if test="parentMenuId != null and parentMenuId != ''">
+                AND m.l_parent_menu_id = #{parentMenuId}
+            </if>
+            <if test="parentMenuId == null or parentMenuId == ''">
+                AND m.l_parent_menu_id != 0
+            </if>
     </select>
 
+    <select id="findMenuItemsListById"
+            resultMap="menuMap">
+        SELECT
+            m.l_menu_id,
+            m.l_parent_menu_id,
+            m.vc_menu_key,
+            m.vc_menu_show_type,
+            m.vc_url,
+            m.vc_icon,
+            m.l_status,
+            m.vc_menu_describe
+        FROM
+          sys_menu_item m
+        where 1=1
+          AND m.l_parent_menu_id = #{0}
+    </select>
 </mapper>

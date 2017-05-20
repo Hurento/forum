@@ -192,7 +192,7 @@ public class ShiroConfiguration {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new REShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(getDefaultWebSecurityManager());
         shiroFilterFactoryBean.setLoginUrl("/system/login?lang=" + LocaleContextHolder.getLocale());
-        shiroFilterFactoryBean.setSuccessUrl("/rest/home/homePage");
+        shiroFilterFactoryBean.setSuccessUrl("/rest/home/homePage/defaultKey/defaultContent");
         shiroFilterFactoryBean.setUnauthorizedUrl("/system/401");
         loadShiroFilterChain(shiroFilterFactoryBean);
         return shiroFilterFactoryBean;

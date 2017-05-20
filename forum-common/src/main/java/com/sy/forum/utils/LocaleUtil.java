@@ -1,7 +1,7 @@
 package com.sy.forum.utils;
 
 import com.sy.forum.core.entity.LocaleFinal;
-import com.sy.forum.core.entity.SessionAttribute;
+import com.sy.forum.core.entity.SessionAttributeFinal;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
@@ -40,7 +40,7 @@ public class LocaleUtil {
 		} else {
 			request.getSession().setAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, LocaleContextHolder.getLocale());
 		}
-		request.getSession().setAttribute(SessionAttribute.LOCALE, lang);
+		request.getSession().setAttribute(SessionAttributeFinal.LOCALE, lang);
 	}
 
 	/**

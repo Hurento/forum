@@ -17,5 +17,5 @@ public interface MenuItemsService extends GenericService<MenuItems, String> {
      * @param item
      * @return
      */
-    List<MenuItems> findMenuItemsList(MenuItems item);
+    StringBuffer findMenuItemsList(MenuItems item);
 }

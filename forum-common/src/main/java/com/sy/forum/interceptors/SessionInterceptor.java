@@ -1,6 +1,6 @@
 package com.sy.forum.interceptors;
 
-import com.sy.forum.core.entity.SessionAttribute;
+import com.sy.forum.core.entity.SessionAttributeFinal;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +12,7 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
 		
 		System.err.println("SessionInterceptor preHandle");
 		
-		Object obj = request.getSession().getAttribute(SessionAttribute.USERINFO);
+		Object obj = request.getSession().getAttribute(SessionAttributeFinal.USERINFO);
 		if (null == obj) { // 未登录
 			if (request.getHeader("x-requested-with") != null
 					&& request.getHeader("x-requested-with").equalsIgnoreCase("XMLHttpRequest")) { // 如果是ajax请求响应头会有，x-requested-with

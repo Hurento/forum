@@ -91,7 +91,7 @@ var LoginAccount = function() {
             language = $('input[name="language"]').attr("data-id"),
             data = {
                 loginName: loginName,
-                langType: language,
+                lang: language,
                 loginPassword: GlobalCommon.paramEncryption(password + "-" + GlobalCommon.paramEncryption("1"))
             };
             $('input[name$="loginPassword"]').val(password);

@@ -8,7 +8,6 @@ import com.sy.forum.system.users.model.UserInfo;
 import com.sy.forum.system.users.service.UserService;
 import com.sy.forum.utils.AddressUtils;
 import com.sy.forum.utils.LocaleUtil;
-import com.sy.forum.utils.Utils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
@@ -58,6 +57,9 @@ public class LoginController {
                                        @ModelAttribute String lang) {
         Result result = new Result();
         try {
+//            if(!Utils.isEmpty(lang)) {
+//                LocaleUtil.exchangeLocale(request,lang);
+//            }
             //登录 token
             UsernamePasswordToken token = new UsernamePasswordToken(userInfo.getLoginName(), userInfo.getLoginPassword());
             //获取当前的Subject

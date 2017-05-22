@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * @Author SY
@@ -47,8 +46,6 @@ public class HomeController {
         try {
             //获取当前登录用户
             UserInfo userInfo = (UserInfo)request.getSession().getAttribute(SessionAttributeFinal.USERINFO);
-            String lang = (String)request.getSession().getAttribute(SessionAttributeFinal.LOCALE);
-            LocaleUtil.exchangeLocale(request, lang);
             tempKey = GenericFinal.KEY + GenericFinal.POINT + tempKey;// 模板路径
             contentKey = GenericFinal.CONTENT + GenericFinal.POINT + contentKey;// 模板Fragment键
 
